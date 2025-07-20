@@ -11,6 +11,7 @@ export const BestSeller = () => {
          lg:grid-cols-5 mt-6'>
           {products.filter((product)=> product.inStock).slice(0,5).map((product, index)=>(
             <ProductCard key={index} product={product}/>
+            
           ))}
         </div>
     </div>
