@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { CiShoppingCart ,CiSearch} from "react-icons/ci";
 import { NavLink } from 'react-router-dom'
 import { assets } from '../assets/assets'
@@ -10,6 +10,14 @@ function Navbar() {
 
     const [open, setOpen] = React.useState(false)
     const {user, setUser, setShowUserLogin, navigate} = useAppContext()
+    const{setSearchQuery, searchQuery} = useAppContext();
+
+
+    useEffect(()=>{
+        if(searchQuery.length>0){
+            navigate('/products')
+        }
+    },[searchQuery])
 
     const login = () => {
         setOpen(false);
@@ -47,7 +55,8 @@ function Navbar() {
                 >Contact</NavLink>
 
                 <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
-                    <input className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search products" />
+                    <input className="py-1.5 w-full bg-transparent outline-none placeholder-gray-500" type="text" placeholder="Search products" 
+                        onChange={(e)=> setSearchQuery(e.target.value)}/>
                     <img src={assets.search_icon} alt="search" className='w-4 h-4' />
                 </div>
 
@@ -119,6 +128,7 @@ function Navbar() {
                     className="cursor-pointer px-6 py-2 mt-2 bg-emerald-500 hover:bg-emerald-800 transition text-white rounded-full text-sm">
                     logout
                 </button>
+                
                 )}
                 
             </div>

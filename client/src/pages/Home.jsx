@@ -7,6 +7,7 @@ import NewsLetter from '../components/NewsLetter'
 
 
 function Home() {
+  
   return (
     <div className='mt-10'>
         <MainBanner />
