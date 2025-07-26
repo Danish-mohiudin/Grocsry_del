@@ -8,7 +8,7 @@ const AppContext = createContext();
 
 export const AppContextProvider = ({children}) =>{
 
-    const currency = import.meta.VITE_CURRENCY;
+    const currency = import.meta.env.VITE_CURRENCY;
 
     const navigate = useNavigate();
     const [user, setUser] = useState(null)
@@ -36,7 +36,7 @@ export const AppContextProvider = ({children}) =>{
         toast.success("Added To Cart")
     }
 
-    // update cart itme quantity
+    // update cart item quantity
 
     const updateCartItem = (itemId, quantity) =>{
         let cartData = structuredClone(cartItems);
@@ -60,6 +60,27 @@ export const AppContextProvider = ({children}) =>{
         setCartItems(cartData)
     }
 
+    // cart item count
+    const getCartCount = ()=>{
+        let totalCount = 0;
+        for(const item in cartItems){
+            totalCount += cartItems[item];
+        }
+        return totalCount;
+    }
+
+    // get cart total ammount
+    const getCartAmmount = () =>{
+        let totoalAmmount = 0;
+        for(const items in cartItems){
+            let itemInfo = products.find((product)=> product._id === items);
+            if(cartItems[items] > 0){
+                totoalAmmount += itemInfo.offerPrice * cartItems[items]
+            }
+        }
+        return Math.floor(totoalAmmount * 100) / 100;
+    }
+
 
     useEffect(()=>{
         fetchProducts()
@@ -69,7 +90,7 @@ export const AppContextProvider = ({children}) =>{
 
     const value = {navigate, user,setUser,setIsSeller, isSeller, showUserLogin, 
         setShowUserLogin, products, currency, addToCart, updateCartItem, removeFromCart,
-        cartItems, setCartItems ,searchQuery, setSearchQuery
+        cartItems, setCartItems ,searchQuery, setSearchQuery , getCartCount, getCartAmmount
     }
 
     return <AppContext.Provider value={value}>

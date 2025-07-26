@@ -48,7 +48,7 @@ const AddAddress = () => {
             <div className='flex-1 max-w-md'>
                 <form onSubmit={onSubmitHandler} className='space-y-3 mt-6 text-sm'>
 
-                    <div className='gird grid-cols-2 gap-4'>
+                    <div className='flex gap-2'>
                         <InputField handleChange={handleChange} address={address}
                             name='firstName' type='text' placeholder="First Name"/>
                         <InputField handleChange={handleChange} address={address}
@@ -60,7 +60,7 @@ const AddAddress = () => {
                         <InputField handleChange={handleChange} address={address}
                             name='street' type='text' placeholder="street "/>
 
-                        <div className='gird grid-cols-2 gap-4'>
+                        <div className='flex gap-2'>
                             <InputField handleChange={handleChange} address={address}
                                 name='city' type='text' placeholder="city "/>
                             <InputField handleChange={handleChange} address={address}
@@ -68,7 +68,7 @@ const AddAddress = () => {
 
                         </div>
 
-                        <div className='gird grid-cols-2 gap-4'>
+                        <div className='flex gap-2'>
                             <InputField handleChange={handleChange} address={address}
                                 name='zipcode' type='number' placeholder="zip code "/>
                             <InputField handleChange={handleChange} address={address}
@@ -76,6 +76,12 @@ const AddAddress = () => {
 
                         </div>
 
+                            <InputField handleChange={handleChange} address={address}
+                                name='phone' type='text' placeholder="phone "/>
+
+                        <button className='w-full mt-6 bg-primary text-white py-3
+                            hover:bg-primary-dull transition cursor-pointer uppercase'>
+                            Save address</button>
 
                 </form>
             </div>
