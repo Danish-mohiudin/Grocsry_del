@@ -1,0 +1,2 @@
+import multer from 'multer'; // Multer is a Node.js middleware for handling multipart/form-data, which is primarily used for uploading files from client to server.
+export const upload = multer({storage: multer.diskStorage({})})

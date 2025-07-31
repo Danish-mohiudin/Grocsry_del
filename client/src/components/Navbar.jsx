@@ -8,8 +8,8 @@ function Navbar() {
     // console.log(cartItems);
     
 
-    const [open, setOpen] = React.useState(false)
-    const {user, setUser, setShowUserLogin, navigate, setSearchQuery, searchQuery,
+    //const [open, setOpen] = React.useState(false)
+    const {open, setOpen,user, setUser, setShowUserLogin, navigate, setSearchQuery, searchQuery,
         getCartCount, cartItems} = useAppContext()
 
     
