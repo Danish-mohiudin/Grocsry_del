@@ -10,17 +10,17 @@ export const placeOrderCOD = async (req,res)=>{
             return res.json({success:false, message:"invalid data"})
         }
         // calculate ammount using items
-        let amount = await items.reduce(async(acc,item)=>{
+        let ammount = await items.reduce(async(acc,item)=>{
             const product = await Product.findById(item.product);
             return (await acc) + product.offerPrice * item.quantity;
         },0)
         // add tax charges (2%)
-        amount += Math.floor( amount * 0.02);
+        ammount += Math.floor( ammount * 0.02);
 
         await Order.create({
             userId,
             items,
-            amount,
+            ammount,
             address,
             paymentType:'COD'
         });
@@ -34,7 +34,7 @@ export const placeOrderCOD = async (req,res)=>{
 
 export const getUserOrders = async (req,res)=>{
     try {
-        const {userId} = req.body;
+        const {userId} = req.query;
         const orders = await Order.find({
             userId,
             $or:[{paymentType:'COD'}, {isPaid: true}] //paymentType is 'COD' (Cash on Delivery), OR isPaid is true (user has already paid online).

@@ -5,7 +5,7 @@ import Product from "../models/ProductSchema.js";
 // Add Product : /api/product/add
 export const addProduct = async (req, res)=>{
     try {
-        let productData = json.parse(req.body.productData);
+        let productData = JSON.parse(req.body.productData);
         const images = req.files
         let imagesUrl = await Promise.all(
             images.map(async(item)=>{

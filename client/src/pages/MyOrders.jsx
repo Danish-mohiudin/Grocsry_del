@@ -1,19 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import { useAppContext } from '../context/AppContext'
 import { dummyOrders } from '../assets/assets';
+import toast from 'react-hot-toast';
 
 const MyOrders = () => {
 
     const [myOrders, setMyOrders] = useState([]);
-    const {currency} = useAppContext();
+    const {currency,axios,user} = useAppContext();  
 
     const fetchMyOrders = async()=>{
-        setMyOrders(dummyOrders)
+        //setMyOrders(dummyOrders)
+        try {
+            const {data} = await axios.get(`/api/order/user?userId=${user._id}`)
+            if(data.success){
+                setMyOrders(data.orders)
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
     }
 
     useEffect(()=>{
-        fetchMyOrders()
-    },[])
+        if(user){
+            fetchMyOrders()
+        }
+    },[user])
   return (
     <div className='mt-16 pb-16'>
         <div className='flex flex-col items-end w-max mb-8'>
@@ -26,7 +39,7 @@ const MyOrders = () => {
                     md:font-medium max-md:flex-col'>
                     <span>orderId : {order._id}</span>
                     <span>Payment Type : {order.paymentType}</span>
-                    <span>Total Ammount : {currency?currency:"$"}{order.amount}</span>
+                    <span>Total Ammount : {currency?currency:"$"}{order.ammount}</span>
                 </p>
                 {order.items.map((item, index)=>(
                     <div key={index} className={`relative bg-white text-gray-500/70

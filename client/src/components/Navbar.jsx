@@ -3,6 +3,7 @@ import { CiShoppingCart ,CiSearch} from "react-icons/ci";
 import { NavLink } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import { useAppContext } from '../context/AppContext';
+import toast from 'react-hot-toast';
 function Navbar() {
     // const {cartItems} = useAppContext()
     // console.log(cartItems);
@@ -10,7 +11,7 @@ function Navbar() {
 
     //const [open, setOpen] = React.useState(false)
     const {open, setOpen,user, setUser, setShowUserLogin, navigate, setSearchQuery, searchQuery,
-        getCartCount, cartItems} = useAppContext()
+        getCartCount,axios, cartItems} = useAppContext()
 
     
 
@@ -26,8 +27,18 @@ function Navbar() {
     };
 
     const logout = async () =>{
-        setUser(null);
-        navigate('/')
+        try {
+            const {data} = await axios.post('/api/user/logout')
+            if(data.success){
+                toast.success(data.message)
+                setUser(null);
+                navigate('/')
+            } else {
+                toast.error(data.message)
+            }
+        } catch (error) {
+            toast.error(error.message)
+        }
     };
   
     return (

@@ -8,6 +8,6 @@ const productRouter = express.Router();
 productRouter.post('/add',upload.array(["images"]), authSeller, addProduct);
 productRouter.get('/list',productList);
 productRouter.get('/id',productById);
-productRouter.post('/srock',authSeller, changeStock);
+productRouter.post('/stock',authSeller, changeStock);
 
 export default productRouter;
