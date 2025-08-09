@@ -2,6 +2,7 @@
 
 import Order from "../models/orderSchema.js";
 import Product from "../models/ProductSchema.js";
+import stripe from 'stripe';
 
 export const placeOrderCOD = async (req,res)=>{
     try {
@@ -55,5 +56,75 @@ export const getAllOrders = async (req,res)=>{
         return res.json({success:true, orders})
     } catch (error) {
         return res.json({success:false, message:error.message});
+    }
+}
+
+
+
+// place order stripe :- api/order/stripe  ==> controller function to create an order using stripe
+
+export const placeOrderStripe = async (req,res)=>{
+    try {
+        const {userId, items, address} = req.body;
+        const{origin} = req.headers;
+        if(!address || items.length === 0){
+            return res.json({success:false, message:"invalid data"})
+        }
+
+        let productData = [];
+
+        // calculate ammount using items
+        let ammount = await items.reduce(async(acc,item)=>{
+            const product = await Product.findById(item.product);
+            productData.push({
+                name:product.name,
+                price:product.offerPrice,
+                quantity:item.quantity
+            });
+            return (await acc) + product.offerPrice * item.quantity;
+        },0)
+        // add tax charges (2%)
+        ammount += Math.floor( ammount * 0.02); 
+        const order = await Order.create({
+            userId,
+            items,
+            ammount,
+            address,
+            paymentType:'Online'
+        });
+        
+
+        // stripe gateway initialize
+        const stripeInstance = new stripe(process.env.STRIPE_SECRET_KEY);
+
+        // create line items for stripe (in this we have to provide the product data, currency, price and quantity)
+        const line_items = productData.map((item)=>({
+            price_data:{
+                currency:"usd",
+                product_data : {
+                    name: item.name,
+                },
+            unit_amount:Math.floor(item.price + item.price * 0.02) * 100
+            //unit_amount: Math.round(item.price * 1.02 * 100) // cents
+            },
+            quantity:item.quantity,
+        }));
+
+        // create session
+        const session = await stripeInstance.checkout.sessions.create({
+            line_items,
+            mode:"payment",
+            success_url:`${origin}/loader?next=my-orders`,
+            cancel_url:`${origin}/cart`, // if payment is cancelled user will br redirected to the cart page
+            metadata:{
+                orderId: order._id.toString(),
+                userId,
+            }
+        })
+        console.log("Stripe session URL:", session.url);
+        console.log("Order created:", order);   
+        return res.json({success:true, url:session.url})// it will be either success or cancel url
+    } catch (error) {
+        return res.json({success:false, message:error.message})
     }
 }
