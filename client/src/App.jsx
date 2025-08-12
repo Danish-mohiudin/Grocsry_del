@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from './components/Navbar.jsx'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import Home from './pages/Home.jsx'
@@ -18,11 +18,14 @@ import AddProduct from './pages/seller/AddProduct.jsx'
 import ProductList from './pages/seller/ProductList.jsx'
 import Orders from './pages/seller/Orders.jsx'
 import { Contact } from './components/Contact.jsx'
+import Loading from './components/Loading.jsx'
 
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller")
   const { showUserLogin, isSeller } = useAppContext();
   //console.log(useLocation());
+
+
   return (
     
     <div className='text-default min-h-screen text-gray-700 bg-white'>
@@ -40,6 +43,7 @@ function App() {
           <Route path='/cart' element={<Cart />}/>
           <Route path='/add-address' element={<AddAddress />}/>
           <Route path='/my-orders' element={<MyOrders />}/>
+          <Route path='/loading' element={<Loading />}/>
 
           <Route path='/seller' element={isSeller ? <SellerLayout/> : <SellerLogin/>}> 
             <Route  index element={isSeller ? <AddProduct/> : null}/>
