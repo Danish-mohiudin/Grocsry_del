@@ -1,8 +1,8 @@
 // place order cod : /api/order/cod
 
 import Order from "../models/orderSchema.js";
-import User from "../models/UserSchema.js";
-import Product from "../models/ProductSchema.js";
+import User from "../models/userSchema.js";
+import Product from "../models/productSchema.js";
 import stripe from 'stripe';
 
 export const placeOrderCOD = async (req,res)=>{
