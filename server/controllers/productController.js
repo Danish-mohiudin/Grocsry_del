@@ -1,6 +1,6 @@
 import { json } from "express"
 import { v2 as cloudinary } from "cloudinary";
-import Product from "../models/ProductSchema.js";
+import Product from "../models/productSchema.js";
 
 // Add Product : /api/product/add
 export const addProduct = async (req, res)=>{
