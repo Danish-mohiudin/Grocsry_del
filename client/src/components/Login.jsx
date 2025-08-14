@@ -52,9 +52,16 @@ const Login = () => {
                         Already have account? <span onClick={() => setState("login")} className="text-primary cursor-pointer">click here</span>
                     </p>
                 ) : (
-                    <p>
-                        Create an account? <span onClick={() => setState("register")} className="text-primary cursor-pointer">click here</span>
-                    </p>
+                    <div className="flex flex-col justify-center items-center space-y-2">
+                        <p>
+                            Create an account? <span onClick={() => setState("register")} className="text-primary cursor-pointer">click here</span>
+                        </p>
+                        <p className="pr-4">
+                            Login as a seller? <span onClick={() => {navigate("/seller/login"); setShowUserLogin(false)}} className="text-primary cursor-pointer">click here</span>
+
+                        </p>
+
+                    </div>
                 )}
                 <button className="bg-primary hover:bg-primary-dull transition-all text-white w-full py-2 rounded-md cursor-pointer">
                     {state === "register" ? "Create Account" : "Login"}
