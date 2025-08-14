@@ -27,46 +27,6 @@ function App() {
 
   // using the axios loading interseptor
 
-  // useEffect(() => {
-  //   let requestCount = 0;
-
-  //   const showLoader = () => setLoading(true);
-  //   const hideLoader = () => setLoading(false);
-
-  //   const requestInterceptor = axios.interceptors.request.use(
-  //     (config) => {
-  //       requestCount++;
-  //       showLoader();
-  //       return config;
-  //     },
-  //     (error) => {
-  //       requestCount = Math.max(requestCount - 1, 0);
-  //       if (requestCount === 0) hideLoader();
-  //       return Promise.reject(error);
-  //     }
-  //   );
-
-  //   const responseInterceptor = axios.interceptors.response.use(
-  //     (response) => {
-  //       requestCount = Math.max(requestCount - 1, 0);
-  //       if (requestCount === 0) hideLoader();
-  //       return response;
-  //     },
-  //     (error) => {
-  //       requestCount = Math.max(requestCount - 1, 0);
-  //       if (requestCount === 0) hideLoader();
-  //       return Promise.reject(error);
-  //     }
-  //   );
-
-  //   // Cleanup interceptors on unmount
-  //   return () => {
-  //     axios.interceptors.request.eject(requestInterceptor);
-  //     axios.interceptors.response.eject(responseInterceptor);
-  //   };
-  // }, [setLoading]);
-
-
   useEffect(() => {
     let requestCount = 0;
     let loaderTimer = null;
