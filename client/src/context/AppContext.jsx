@@ -22,6 +22,7 @@ export const AppContextProvider = ({children}) =>{
     const [products, setProducts] = useState([])
     const [cartItems, setCartItems] = useState({})
     const [searchQuery, setSearchQuery] = useState({})
+    const [loading, setLoading] = useState(false)
     
 
     // fetch seller status
@@ -167,7 +168,7 @@ export const AppContextProvider = ({children}) =>{
     const value = {navigate, user,setUser,setIsSeller, isSeller, showUserLogin, 
         setShowUserLogin, products, currency, addToCart, updateCartItem, removeFromCart,
         cartItems, setCartItems ,searchQuery, setSearchQuery , getCartCount, getCartAmmount, 
-        open, setOpen, axios, fetchProducts
+        open, setOpen, axios, fetchProducts, loading, setLoading
     }
 
     return <AppContext.Provider value={value}>

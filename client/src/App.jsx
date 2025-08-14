@@ -22,8 +22,108 @@ import Loading from './components/Loading.jsx'
 
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller")
-  const { showUserLogin, isSeller } = useAppContext();
+  const { showUserLogin, isSeller,loading, setLoading, axios } = useAppContext();
   //console.log(useLocation());
+
+  // using the axios loading interseptor
+
+  // useEffect(() => {
+  //   let requestCount = 0;
+
+  //   const showLoader = () => setLoading(true);
+  //   const hideLoader = () => setLoading(false);
+
+  //   const requestInterceptor = axios.interceptors.request.use(
+  //     (config) => {
+  //       requestCount++;
+  //       showLoader();
+  //       return config;
+  //     },
+  //     (error) => {
+  //       requestCount = Math.max(requestCount - 1, 0);
+  //       if (requestCount === 0) hideLoader();
+  //       return Promise.reject(error);
+  //     }
+  //   );
+
+  //   const responseInterceptor = axios.interceptors.response.use(
+  //     (response) => {
+  //       requestCount = Math.max(requestCount - 1, 0);
+  //       if (requestCount === 0) hideLoader();
+  //       return response;
+  //     },
+  //     (error) => {
+  //       requestCount = Math.max(requestCount - 1, 0);
+  //       if (requestCount === 0) hideLoader();
+  //       return Promise.reject(error);
+  //     }
+  //   );
+
+  //   // Cleanup interceptors on unmount
+  //   return () => {
+  //     axios.interceptors.request.eject(requestInterceptor);
+  //     axios.interceptors.response.eject(responseInterceptor);
+  //   };
+  // }, [setLoading]);
+
+
+  useEffect(() => {
+    let requestCount = 0;
+    let loaderTimer = null;
+    let loaderShownAt = null;
+
+    const showLoader = () => {
+      loaderShownAt = Date.now();
+      setLoading(true);
+    };
+
+    const hideLoader = () => {
+      const elapsed = Date.now() - loaderShownAt;
+      const minDisplayTime = 500; // ms
+
+      if (elapsed < minDisplayTime) {
+        // Delay hiding if loader was too quick
+        loaderTimer = setTimeout(() => {
+          setLoading(false);
+        }, minDisplayTime - elapsed);
+      } else {
+        setLoading(false);
+      }
+    };
+
+    const requestInterceptor = axios.interceptors.request.use(
+      (config) => {
+        if (requestCount === 0) showLoader();
+        requestCount++;
+        return config;
+      },
+      (error) => {
+        requestCount = Math.max(requestCount - 1, 0);
+        if (requestCount === 0) hideLoader();
+        return Promise.reject(error);
+      }
+    );
+
+    const responseInterceptor = axios.interceptors.response.use(
+      (response) => {
+        requestCount = Math.max(requestCount - 1, 0);
+        if (requestCount === 0) hideLoader();
+        return response;
+      },
+      (error) => {
+        requestCount = Math.max(requestCount - 1, 0);
+        if (requestCount === 0) hideLoader();
+        return Promise.reject(error);
+      }
+    );
+
+    return () => {
+      clearTimeout(loaderTimer);
+      axios.interceptors.request.eject(requestInterceptor);
+      axios.interceptors.response.eject(responseInterceptor);
+    };
+  }, [setLoading]);
+
 
 
   return (
@@ -31,6 +131,7 @@ function App() {
     <div className='text-default min-h-screen text-gray-700 bg-white'>
       {isSellerPath ? null : <Navbar/>}
       {showUserLogin ? <Login/> : null}
+      {loading ? <Loading/> : null}
 
       <Toaster />
       <div className= {`${isSellerPath ? "" : "px-6 md:px-16 lg:px-24 xl:px32"}`}>
