@@ -133,7 +133,7 @@ function Navbar() {
                 >All Products</NavLink>
 
                 {user && 
-                    <NavLink to={'/contact'}
+                    <NavLink to={'/my-orders'}
                      onClick={()=>setOpen(false)}
                      className={({isActive})=>
                         isActive ? "text-emerald-600 font-bold" : "text-gray-800"}
