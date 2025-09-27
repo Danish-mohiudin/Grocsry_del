@@ -24,23 +24,15 @@ export const addProduct = async (req, res)=>{
 
 
 // Get Products : /api/product/list
-export const productList = async (req, res) => {
-  try {
-    // Disable caching
-    res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
-    res.setHeader("Pragma", "no-cache");
-    res.setHeader("Expires", "0");
-    res.setHeader("Surrogate-Control", "no-store");
-
-    // Fetch only products for the logged-in seller
-    const products = await Product.find({ sellerId: req.sellerId });
-
-    res.json({ success: true, products });
-  } catch (error) {
-    console.log("Product list error:", error.message);
-    res.status(500).json({ success: false, message: error.message });
-  }
-};
+export const productList = async (req, res)=>{
+    try {
+        const products = await Product.find({})// it will return all the products
+        res.json({success:true, products})
+    } catch (error) {
+        console.log(error.message)
+        res.json({success:false, message:error.message})
+    }
+}
 
 
 // Get single Product : /api/product/id
