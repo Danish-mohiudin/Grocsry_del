@@ -1,10 +1,15 @@
 import React from 'react'
 import { useAppContext } from '../../context/AppContext'
 import toast from 'react-hot-toast';
+import { useEffect } from 'react';
 
 
 const ProductList = () => {
     const {products, currency, axios, fetchProducts} = useAppContext();
+
+    useEffect(() => {
+        fetchProducts(); // fetch products on component mount
+    }, []);
 
     const toggleStock = async(id,inStock)=>{
         try {
