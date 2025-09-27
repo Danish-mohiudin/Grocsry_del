@@ -8,7 +8,7 @@ const ProductList = () => {
     const {products, currency, axios, fetchProducts} = useAppContext();
 
     useEffect(() => {
-        fetchProducts(); // fetch products on component mount
+        fetchProducts();
     }, []);
 
     const toggleStock = async(id,inStock)=>{
