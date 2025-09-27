@@ -91,12 +91,12 @@ const AddProduct = () => {
                     <div className="flex-1 flex flex-col gap-1 w-32">
                         <label className="text-base font-medium" htmlFor="product-price">Product Price</label>
                         <input onChange={(e)=> setPrice(e.target.value)} value={price}
-                         id="product-price" type="number" placeholder="0" className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40" required />
+                         id="product-price" type="number" placeholder="0" min={1} className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40" required />
                     </div>
                     <div className="flex-1 flex flex-col gap-1 w-32">
                         <label className="text-base font-medium" htmlFor="offer-price">Offer Price</label>
-                        <input onChange={(e)=> setOfferPrice(e.target.value)} value={offerPrice}
-                         id="offer-price" type="number" placeholder="0" className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40" required />
+                        <input onChange={(e)=> setOfferPrice(e.target.value)} value={offerPrice} 
+                         id="offer-price" type="number" placeholder="0" min={1} className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40" required />
                     </div>
                 </div>
                 <button className="px-8 py-2.5 bg-primary text-white font-medium rounded cursor-pointer">ADD</button>
