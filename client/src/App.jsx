@@ -19,6 +19,7 @@ import ProductList from './pages/seller/ProductList.jsx'
 import Orders from './pages/seller/Orders.jsx'
 import { Contact } from './components/Contact.jsx'
 import Loading from './components/Loading.jsx'
+import NotFound from './components/Notfound.jsx'
 
 function App() {
   const isSellerPath = useLocation().pathname.includes("seller")
@@ -105,6 +106,7 @@ function App() {
           <Route path='/add-address' element={<AddAddress />}/>
           <Route path='/my-orders' element={<MyOrders />}/>
           <Route path='/loading' element={<Loading />}/>
+          <Route path='*' element={<NotFound />}/>
 
           <Route path='/seller' element={isSeller ? <SellerLayout/> : <SellerLogin/>}> 
             <Route  index element={isSeller ? <AddProduct/> : null}/>
