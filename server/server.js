@@ -10,6 +10,7 @@ import productRouter from './routes/productRoute.js';
 import cartRouter from './routes/cartRote.js';
 import addressRouter from './routes/addressRoute.js';
 import orderRouter from './routes/orderRoute.js';
+import emailRouter from './routes/emailRoute.js';
 import { stripeWebhooks } from './controllers/orderController.js';
 
 const app = express();
@@ -17,7 +18,6 @@ const port = process.env.port || 4000;
 
 await connectDb();
 await connectCloudinary();
-
 
 //allow multiple origions
 const allowedOrigins = ['http://localhost:5173','https://grocsry-del.vercel.app']
@@ -36,6 +36,7 @@ app.use('/api/product', productRouter)
 app.use('/api/cart', cartRouter)
 app.use('/api/address', addressRouter)
 app.use('/api/order', orderRouter)
+app.use('/api/email', emailRouter) 
 
 app.listen(port, ()=>{
     console.log(`server is running on http://localhost:${port}`);
