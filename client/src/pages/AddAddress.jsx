@@ -95,7 +95,7 @@ const AddAddress = () => {
 
                         <div className='flex gap-2'>
                             <InputField handleChange={handleChange} address={address}
-                                name='zipcode' type='number' placeholder="zip code "/>
+                                name='zipcode' type="text" inputMode="numeric" placeholder="zip code "/>
                             <InputField handleChange={handleChange} address={address}
                                 name='country' type='text' placeholder="country "/>
 
