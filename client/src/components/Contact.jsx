@@ -146,7 +146,7 @@ export const Contact = () => {
                 <p className="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-3">Check your email for a confirmation message.</p>
               </div>
             ) : (
-              <div>
+              <form onSubmit={handleSubmit}>
                 {error && (
                   <div className="bg-red-50 border-2 border-red-500 rounded-xl p-3 sm:p-4 mb-4 sm:mb-6 text-center">
                     <p className="text-sm sm:text-base text-red-600 font-semibold">{error}</p>
@@ -226,8 +226,7 @@ export const Contact = () => {
                   </div>
 
                   <button
-                    type="button"
-                    onClick={handleSubmit}
+                    type="submit"
                     disabled={loading}
                     className="w-full bg-gradient-to-r from-emerald-600 to-teal-600 text-white font-bold py-3 sm:py-4 text-sm sm:text-base rounded-xl hover:from-emerald-700 hover:to-teal-700 transition-all duration-300 flex items-center justify-center space-x-2 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed"
                   >
@@ -244,7 +243,7 @@ export const Contact = () => {
                     )}
                   </button>
                 </div>
-              </div>
+              </form>
             )}
           </div>
         </div>
