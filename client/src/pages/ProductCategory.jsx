@@ -7,12 +7,12 @@ import ProductCard from '../components/ProductCard';
 const ProductCategory = () => {
     const {products} = useAppContext();
     const {category} = useParams()
-    console.log("the useParams",category);
+    //console.log("the useParams",category);
     
     const searchCategory = categories.find((item)=> item.path.toLocaleLowerCase() === 
         category)
 
-    console.log("search",searchCategory)
+    //console.log("search",searchCategory)
 
     const filteredProducts = products.filter((product)=>product.category.toLocaleLowerCase()
         === category)

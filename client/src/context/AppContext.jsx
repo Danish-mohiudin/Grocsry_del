@@ -68,61 +68,67 @@ export const AppContextProvider = ({children}) =>{
 
     // add product to cart
     const addToCart = (itemId) =>{
-        let cartData = structuredClone(cartItems) // create a deep copy of the object 
-
-        if(cartData[itemId]){
-            cartData[itemId] += 1;
-        } else {
-            cartData[itemId] = 1;
-        }
-        setCartItems(cartData);
-        toast.success("Added To Cart")
+        setCartItems(prev => ({
+            ...prev,
+            [itemId]: (prev[itemId] || 0) + 1
+        }));
+        toast.success("Added To Cart");
     }
 
     // update cart item quantity
 
     const updateCartItem = (itemId, quantity) =>{
-        let cartData = structuredClone(cartItems);
-        cartData[itemId] = quantity
-        setCartItems(cartData)
-        toast.success("Cart Updated")
+        if (quantity <= 0) return;
+
+        setCartItems(prev => ({
+            ...prev,
+        [itemId]: quantity
+        }));
+        toast.success("Cart Updated");
 
     }
 
     // remove product form the cart
 
     const removeFromCart = (itemId) =>{
-        let cartData = structuredClone(cartItems);
-        if(cartData[itemId]){
-            cartData[itemId] -= 1;
-            if(cartData[itemId] === 0){
-                delete cartData[itemId];
+        setCartItems(prev => {
+            const copy = { ...prev };
+
+            if (!copy[itemId]) return prev;
+
+            if (copy[itemId] === 1) {
+                delete copy[itemId];
+            } else {
+                copy[itemId] -= 1;
             }
-        }
-        toast.success("Removed Form The Cart")
-        setCartItems(cartData)
+
+            return copy;
+  });
+
+  toast.success("Removed From Cart");
     }
 
     // cart item count
-    const getCartCount = ()=>{
-        let totalCount = 0;
-        for(const item in cartItems){
-            totalCount += cartItems[item];
-        }
-        return totalCount;
-    }
+    const getCartCount = ()=> {
+        return Object.values(cartItems)
+            .reduce((total, qty) => total + qty, 0);
+    };
+
 
     // get cart total ammount
-    const getCartAmmount = () =>{
-        let totoalAmmount = 0;
-        for(const items in cartItems){
-            let itemInfo = products.find((product)=> product._id === items);
-            if(cartItems[items] > 0){
-                totoalAmmount += itemInfo.offerPrice * cartItems[items]
-            }
-        }
-        return Math.floor(totoalAmmount * 100) / 100;
+    const getCartAmmount = () => {
+    let totalAmount = 0;
+
+    for (const itemId in cartItems) {
+        const product = products.find(p => p._id === itemId);
+
+        if (!product) continue;
+
+        totalAmount += product.offerPrice * cartItems[itemId];
     }
+
+    return Number(totalAmount.toFixed(2));
+};
 
 
     useEffect(()=>{
